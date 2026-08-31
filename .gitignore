@@ -1,0 +1,4 @@
+# GitHub 100MB file limit — the video is served via YouTube instead
+assets/디자인/기탁/*.mp4
+tools/
+*.bak

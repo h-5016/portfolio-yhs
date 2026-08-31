@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>You Hyunjin — Portfolio 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,500&family=Noto+Sans+KR:wght@300;400;500;700&family=Italiana&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav id="nav">
+  <a class="brand" href="#top">Y.H.</a>
+  <div class="links">
+    <a href="#design">Design</a>
+    <a href="#photo">Photo</a>
+    <a href="#video">Video</a>
+  </div>
+</nav>
+
+<header id="top" class="hero">
+  <div class="hero-inner">
+    <div class="hero-meta"><span class="pill">2026</span><span>You Hyunjin</span></div>
+    <h1><em class="script">P</em><span class="outline">ort</span>folio</h1>
+    <p class="hero-sub">Graphic Design · Photography · Content for K-Entertainment</p>
+    <p class="hero-desc">아티스트 앨범 프로모션, 콘서트 브랜딩, SNS 콘텐츠 디자인부터 무대 촬영과 사진 보정까지 — 엔터테인먼트 비주얼 전반의 작업을 담았습니다.</p>
+    <div class="hero-tags" id="heroTags"></div>
+  </div>
+  <div class="scroll-hint">SCROLL<span class="line"></span></div>
+</header>
+
+<main>
+  <section id="design" class="section">
+    <div class="section-head">
+      <span class="sec-no">01</span>
+      <h2><em>D</em>esign</h2>
+      <p>앨범 프로모션 · 콘서트 브랜딩 · SNS 콘텐츠 · 굿즈</p>
+    </div>
+    <div id="designProjects"></div>
+  </section>
+
+  <section id="photo" class="section">
+    <div class="section-head">
+      <span class="sec-no">02</span>
+      <h2><em>P</em>hoto</h2>
+      <p>촬영 및 보정 · 사진 보정 리터칭</p>
+    </div>
+
+    <div class="sub-head">
+      <h3>Before / After — Retouching</h3>
+      <p>슬라이더를 좌우로 움직여 보정 전후를 비교해 보세요.</p>
+    </div>
+    <div id="baGrid" class="ba-grid"></div>
+
+    <div id="photoProjects"></div>
+  </section>
+
+  <section id="video" class="section">
+    <div class="section-head">
+      <span class="sec-no">03</span>
+      <h2><em>V</em>ideo</h2>
+      <p>영상 썸네일 디자인 · 영상 디자인</p>
+    </div>
+    <div id="thumbGrid" class="masonry cols-3"></div>
+    <div class="sub-head" style="margin-top:64px">
+      <h3>Motion — [기탁] 도영이의 도전 : 면허편</h3>
+      <p>영상 디자인</p>
+    </div>
+    <div class="video-wrap">
+      <video id="gitakVideo" controls preload="metadata"></video>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <h2 class="foot-mark"><em class="script">T</em>hank <span class="outline">you</span></h2>
+  <p>You Hyunjin — Portfolio 2026</p>
+</footer>
+
+<div id="lightbox" class="lightbox" hidden>
+  <button class="lb-close" aria-label="닫기">&times;</button>
+  <button class="lb-prev" aria-label="이전">&#8249;</button>
+  <button class="lb-next" aria-label="다음">&#8250;</button>
+  <div class="lb-stage"><img id="lbImg" alt=""></div>
+  <div class="lb-caption" id="lbCaption"></div>
+</div>
+
+<script src="js/manifest.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
