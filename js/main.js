@@ -1,6 +1,19 @@
 /* ===== helpers ===== */
-const enc = (p) => "assets/" + p.split("/").map(encodeURIComponent).join("/");
-const encThumb = (p) => "thumbs/" + p.replace(/\.(jpg|jpeg|png)$/i, ".jpg").split("/").map(encodeURIComponent).join("/");
+/* 내용이 바뀐 파일은 버전을 올려 방문자 캐시를 무효화 */
+const VERSIONS = [
+  ["Photo/보정 전_후/2 보정전", 3],
+  ["Photo/보정 전_후/2 보정후", 3],
+  ["Photo/보정 전_후/7 보정전", 2],
+  ["디자인/ZB1/GoodsoBad 쇼케이스 현수막2", 2],
+  ["디자인/ZB1/GoodsoBad 쇼케이스 현수막3", 2],
+  ["디자인/ZB1/GoodsoBad 쇼케이스 현수막4", 2],
+];
+const verOf = (p) => {
+  const hit = VERSIONS.find(([prefix]) => p.startsWith(prefix));
+  return hit ? `?v=${hit[1]}` : "";
+};
+const enc = (p) => "assets/" + p.split("/").map(encodeURIComponent).join("/") + verOf(p);
+const encThumb = (p) => "thumbs/" + p.replace(/\.(jpg|jpeg|png)$/i, ".jpg").split("/").map(encodeURIComponent).join("/") + verOf(p);
 const byPrefix = (prefix) => MANIFEST.filter((m) => m.p.startsWith(prefix));
 const fileName = (p) => p.split("/").pop().replace(/\.(jpg|jpeg|png)$/i, "");
 
