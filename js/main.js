@@ -37,7 +37,8 @@ const LINKS = [
   ["디자인/Gaho/온리유/2_02_", "https://www.instagram.com/p/CkvAAuFJk4T/?utm_source=ig_web_copy_link&igsi=MzRlODBiNWFlZA=="],
   ["디자인/Gaho/온리유/3_02_", "https://www.instagram.com/p/CkvAAuFJk4T/?utm_source=ig_web_copy_link&igsi=MzRlODBiNWFlZA=="],
   ["디자인/Gaho/온리유/마플샵 굿즈/", "https://www.instagram.com/p/ClGMccxhVM8/?utm_source=ig_web_copy_link&igsi=MzRlODBiNWFlZA=="],
-  ["Photo/촬영 및 보정/ZB1/", "https://www.instagram.com/p/C_QEaH-pMR5/?utm_source=ig_web_copy_link&igsi=MzRlODBiNWFlZA=="],
+  ["Photo/촬영 및 보정/ZB1/GoodsoBad MV 비하인드", "https://www.instagram.com/p/C_QEaH-pMR5/?utm_source=ig_web_copy_link&igsi=MzRlODBiNWFlZA=="],
+  ["Photo/촬영 및 보정/ZB1/마담피가로 화보 비하인드", "https://www.instagram.com/p/C_QEaH-pMR5/?utm_source=ig_web_copy_link&igsi=MzRlODBiNWFlZA=="],
 ];
 const linkFor = (p) => {
   const hit = LINKS.find(([prefix]) => p.startsWith(prefix));
@@ -160,6 +161,52 @@ function buildMasonry(items, cols) {
   return wrap;
 }
 
+/* ===== GIF-style loop player (영상 촬영 등) ===== */
+function buildLoopPlayer(items) {
+  const wrap = document.createElement("div");
+  wrap.className = "loop-wrap reveal";
+  const player = document.createElement("div");
+  player.className = "loop-player";
+  const imgA = document.createElement("img");
+  const imgB = document.createElement("img");
+  imgA.decoding = imgB.decoding = "async";
+  imgA.alt = imgB.alt = "영상 촬영 미리보기";
+  player.appendChild(imgA);
+  player.appendChild(imgB);
+  const badge = document.createElement("span");
+  badge.className = "badge loop-badge";
+  badge.textContent = "▶ LOOP";
+  player.appendChild(badge);
+  wrap.appendChild(player);
+
+  let idx = 0;
+  let front = imgA;
+  let back = imgB;
+  let timer = null;
+
+  const start = () => {
+    // preload all frames, then cycle
+    const srcs = items.map((m) => encThumb(m.p));
+    srcs.forEach((s) => { const im = new Image(); im.src = s; });
+    front.src = srcs[0];
+    front.classList.add("show");
+    timer = setInterval(() => {
+      idx = (idx + 1) % srcs.length;
+      back.src = srcs[idx];
+      back.classList.add("show");
+      front.classList.remove("show");
+      const t = front; front = back; back = t;
+    }, 1100);
+  };
+  new IntersectionObserver((entries, obs) => {
+    entries.forEach((en) => { if (en.isIntersecting) { start(); obs.disconnect(); } });
+  }, { rootMargin: "400px" }).observe(player);
+
+  player.addEventListener("click", () => openLb(items, idx));
+  revealer.observe(wrap);
+  return wrap;
+}
+
 /* reveal on scroll */
 const revealer = new IntersectionObserver((entries) => {
   entries.forEach((en) => { if (en.isIntersecting) { en.target.classList.add("on"); revealer.unobserve(en.target); } });
@@ -199,7 +246,11 @@ function renderProject(proj, mount) {
     label.className = "subgroup-label";
     label.textContent = key;
     sec.appendChild(label);
-    sec.appendChild(buildMasonry(subs[key].sort(nsort), proj.subCols || proj.cols));
+    if (proj.loopSubs && proj.loopSubs.includes(key)) {
+      sec.appendChild(buildLoopPlayer(subs[key].sort(nsort)));
+    } else {
+      sec.appendChild(buildMasonry(subs[key].sort(nsort), proj.subCols || proj.cols));
+    }
   });
 
   mount.appendChild(sec);
@@ -310,7 +361,8 @@ const PHOTO_PROJECTS = [
     post: "https://m.blog.naver.com/PostView.naver?blogId=moss-music&logNo=223753041787&navType=by" },
   { dir: "Photo/촬영 및 보정/ZB1", title: "ZEROBASEONE — Behind", artist: "Shooting + Retouch", cols: 4,
     desc: "‘GoodsoBad’ MV·마담피가로 화보 현장 스틸 및 영상 촬영, 보정.",
-    order: ["GoodsoBad MV 비하인드", "마담피가로 화보 비하인드"] },
+    order: ["GoodsoBad MV 비하인드", "마담피가로 화보 비하인드"],
+    loopSubs: ["영상 촬영"] },
   { dir: "Photo/사진 보정/ZB1", title: "ZEROBASEONE — Retouch", artist: "Retouch", cols: 4,
     desc: "현장 사진 리터칭 작업." },
   { dir: "Photo/사진 보정/시네마", title: "시네마 — 모비딕 · 청춘콘썰트", artist: "Retouch", cols: 3,
